@@ -68,11 +68,11 @@ jobs:
             [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
       - run:
-          name: Login in Server and Deploy
+          name: Login in to Server and Deploy
           command: |
               pwd
-              ls
-              scp ./bin/main << parameters.host >>:~/go-app/main
+              ls ./bin
+              scp ./bin/main << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy-script >>
 
 workflows:
