@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.19 as builder
+FROM golang:1.22 AS builder
 
 # Set destination for COPY
 WORKDIR /app
@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /go-push
 # https://docs.docker.com/reference/dockerfile/#expose
 
 
-FROM alpine:3.14 as production
+FROM alpine:3.14 AS production
 # Add certificates
 
 COPY .env .

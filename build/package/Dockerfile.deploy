@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1
+
+FROM cimg/base:2024.02
+
+# Set destination for COPY
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 8080
+
+# Run
+CMD ["/main"]
