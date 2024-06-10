@@ -31,6 +31,7 @@ jobs:
           root: ./
           paths:
              - bin/
+             - scripts/
 
   
   package:
@@ -51,17 +52,17 @@ jobs:
     executor: default
     parameters:
        host:
-        type: string
-        default: $DEV_HOST
+         type: string
+         default: $DEV_HOST
 
        setup_script:
          type: string
          default: ./scripts/ssh-setup.sh
 
        deploy_script:
-        type: string
-        default: ./scripts/deploy.sh
-        
+         type: string
+         default: ./scripts/deploy.sh
+
     steps:
       - attach_workspace:
           at: ./
