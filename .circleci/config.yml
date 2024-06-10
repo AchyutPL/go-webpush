@@ -81,7 +81,7 @@ jobs:
               tar -czf /tmp/go-app.tar.gz .
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >> 
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
-              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >> $DEV_HOST
+              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >> $DB_HOST
 
 workflows:
    deploy-app:
