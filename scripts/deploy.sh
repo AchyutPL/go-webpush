@@ -20,7 +20,7 @@ docker image prune -f
 # run the docker container using go-app:latest image
 docker run -d --network kong-net -p 8080:8080 \
   -e PORT=8080 \
-  -e DB_HOST=$DB_HOST \
+  -e DB_HOST=$1 \
   -e DB_PORT=$DB_PORT \
   -e DB_DATABASE=$DB_DATABASE \
   -e DB_USERNAME=$DB_USERNAME \
