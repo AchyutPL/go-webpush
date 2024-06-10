@@ -81,13 +81,8 @@ jobs:
               tar -czf /tmp/go-app.tar.gz .
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >> 
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
-              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >> $DB_HOST
-          environment:
-             DB_HOST: $DB_HOST
-             DB_PORT: $DB_PORT
-             DB_DATABASE: $DB_DATABASE
-             DB_USERNAME: $DB_USERNAME
-             DB_PASSWORD: $DB_PASSWORD
+              # passing the envs from circle ci as arguments to the deploy script
+              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >> $DB_HOST $DB_PORT $DB_DATABASE $DB_USERNAME $DB_PASSWORD
 
 workflows:
    deploy-app:

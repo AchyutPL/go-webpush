@@ -1,7 +1,12 @@
 # build the image
 cd go-app
 
-echo "ARGS $DB_HOST , $DB_USERNAME"
+# Accessing and assigning the received args to variables from config.yml
+DB_HOST=$1
+DB_HOST=$2
+DB_DATABASE=$3
+DB_USERNAME=$4
+DB_USERNAME=$5
 
 # decompress the go-app tar file and remove the tar file
 tar -xzf go-app.tar.gz -C . && rm -f go-app.tar.gz
@@ -20,9 +25,9 @@ docker image prune -f
 # run the docker container using go-app:latest image
 docker run -d --network kong-net -p 8080:8080 \
   -e PORT=8080 \
-  -e DB_HOST=$1 \
-  -e DB_PORT=5432 \
-  -e DB_DATABASE=postgres \
-  -e DB_USERNAME=postgres \
-  -e DB_PASSWORD=postgres \
+  -e DB_HOST=$DB_HOST \
+  -e DB_PORT=$DB_PORT \
+  -e DB_DATABASE=$DB_DATABASE \
+  -e DB_USERNAME=$DB_USERNAME \
+  -e DB_PASSWORD=$DB_PASSWORD \
   --name go-app go-app:latest
