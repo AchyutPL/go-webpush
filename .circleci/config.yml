@@ -1,0 +1,88 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/base:2024.02
+  go:
+    docker:
+      - image: cimg/go:1.22.4
+
+
+jobs:
+  build: # this can be any name you choose
+    executor: go
+    steps:
+      - checkout # checkout source code
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Install Dependencies
+          command: go mod download
+
+      - run:
+          name: Test If we have a valid build or not
+          command: |
+            pwd
+            make build
+
+      - persist_to_workspace:
+          root: ./
+          paths:
+             - bin/
+
+  
+  package:
+    executor: default
+    parameters:
+      environment:
+        type: string
+        default: dev
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - build/package
+
+
+  deploy: # this can be any name you choose
+    executor: default
+    parameters:
+       host:
+        type: string
+        default: $DEV_HOST
+
+       deploy-script:
+        type: string
+        default: ./scripts/deploy.sh
+    steps:
+      - attach_workspace:
+          at: /.
+
+      - run:
+          name: Docker SSH Setup
+          command: |
+            mkdir -p ~/.ssh
+            [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+      - run:
+          name: Login in Server and Deploy
+          command: |
+              scp ./bin/main << parameters.host >>:~/go-app/
+              ssh << parameters.host >> 'bash -s' < << parameters.deploy-script >>
+
+workflows:
+   deploy-app:
+    jobs:
+      - build
+      - package:
+         requires:
+            - build
+      - deploy:
+          requires:
+            - package # only deploy if the build_and_test job has completed
+          filters:
+            branches:
+              only: main # only deploy when on main
