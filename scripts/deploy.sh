@@ -15,12 +15,15 @@ docker container rm -f go-app || true
 # remove dangling docker images
 docker image prune -f
 
+
+ech "HOST IS" $DB_HOST
+
 # run the docker container using go-app:latest image
 docker run -d --network kong-net -p 8080:8080 \
   -e PORT=8080 \
-  -e DB_HOST=${DB_HOST} \
-  -e DB_PORT=${DB_PORT} \
-  -e DB_DATABASE=${DB_DATABASE} \
-  -e DB_USERNAME=${DB_USERNAME} \
-  -e DB_PASSWORD=${DB_PASSWORD} \
+  -e DB_HOST=$DB_HOST \
+  -e DB_PORT=$DB_PORT \
+  -e DB_DATABASE=$DB_DATABASE \
+  -e DB_USERNAME=$DB_USERNAME \
+  -e DB_PASSWORD=$DB_PASSWORD \
   --name go-app go-app:latest
