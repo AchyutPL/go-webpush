@@ -59,7 +59,7 @@ jobs:
         default: ./scripts/deploy.sh
     steps:
       - attach_workspace:
-          at: /.
+          at: ./
 
       - run:
           name: Docker SSH Setup
