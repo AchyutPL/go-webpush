@@ -1,7 +1,7 @@
 # build the image
 cd go-app
 
-tar -xzf webapp.tar.gz -C . && rm -f webapp.tar.gz
+tar -xzf go-app.tar.gz -C . && rm -f go-app.tar.gz
 
 docker build -f ./build/package/Dockerfile.deploy -t go-app:latest .
 docker container rm -f go-app || true
