@@ -17,6 +17,7 @@ docker image prune -f
 
 
 echo "HOST IS" $DB_HOST
+echo "SERVER IS" $DEV_HOST
 
 # run the docker container using go-app:latest image
 docker run -d --network kong-net -p 8080:8080 \
