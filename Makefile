@@ -42,7 +42,7 @@ clean:
 
 # Live Reload
 watch:
-	@if command -v air > /dev/null; then \
+	@if command air > /dev/null; then \
 	    air; \
 	    echo "Watching...";\
 	else \

@@ -1,0 +1,44 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/base:2024.02
+  go:
+    docker:
+      - image: cimg/go:1.22.4
+
+
+jobs:
+  build: # this can be any name you choose
+    executor: go
+    steps:
+      - checkout # checkout source code
+      - restore_cache:
+          key: dependency-cache-{{ checksum "go.mod" }}
+      - run:
+          name: Test If we have a valid build or not
+          command: |
+            pwd
+            make build
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
+
+  deploy: # this can be any name you choose
+    executor: default
+    steps:
+      - attach_workspace:
+          at: ~/project
+
+
+workflows:
+   deploy-app:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build # only deploy if the build_and_test job has completed
+          filters:
+            branches:
+              only: main # only deploy when on main

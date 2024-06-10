@@ -1,28 +1,33 @@
 package server
 
 import (
+	"go-webpush/internal/api/notification"
+	"go-webpush/internal/api/subscription"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) RegisterRoutes() http.Handler {
-	r := gin.Default()
+// register all the api routes here
+func RegisterRoutes(server *gin.Engine) {
+	log.Println("🚀🚀🚀🚀🚀🚀 REGISTER ROUTES 🚀🚀🚀🚀🚀🚀🚀")
+	server.GET("/", IndexHandler)
 
-	r.GET("/", s.HelloWorldHandler)
+	server.GET("/health", func(ctx *gin.Context) {
+		message := "Welcome to Golang with Gorm and Postgres"
+		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
+	})
 
-	r.GET("/health", s.healthHandler)
+	basepath := server.Group("/api")
 
-	return r
+	notification.RegisterNotificationnRoutes(basepath)
+	subscription.RegisterSubscriptionRoutes(basepath)
 }
 
-func (s *Server) HelloWorldHandler(c *gin.Context) {
+func IndexHandler(c *gin.Context) {
 	resp := make(map[string]string)
 	resp["message"] = "Hello World"
 
 	c.JSON(http.StatusOK, resp)
-}
-
-func (s *Server) healthHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, s.db.Health())
 }

@@ -1,39 +1,33 @@
 package server
 
 import (
-	"fmt"
-	"net/http"
-	"os"
-	"strconv"
-	"time"
+	"go-webpush/configs"
+	"go-webpush/internal/database"
+	"log"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
-
-	"go-project-standard/internal/database"
 )
 
-type Server struct {
-	port int
+var (
+	server *gin.Engine
+)
 
-	db database.Service
-}
+func NewServer() error {
 
-func NewServer() *http.Server {
-	port, _ := strconv.Atoi(os.Getenv("PORT"))
-	NewServer := &Server{
-		port: port,
+	server = gin.Default()
 
-		db: database.New(),
-	}
+	database.ConnectToDB()
 
-	// Declare Server config
-	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", NewServer.port),
-		Handler:      NewServer.RegisterRoutes(),
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 30 * time.Second,
-	}
+	// cors configuration
+	server.Use(configs.CorsConfiguration)
 
-	return server
+	// register all routes from routes.go
+	RegisterRoutes(server)
+
+	err := server.Run(":8080")
+
+	log.Fatal(err)
+
+	return err
 }
