@@ -79,12 +79,6 @@ jobs:
               pwd && ls
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
-              echo "export DB_HOST=$DB_HOST" >> "$BASH_ENV"
-              echo "export DB_PORT=$DB_PORT" >> "$BASH_ENV"
-              echo "export DB_DATABASE=$DB_DATABASE" >> "$BASH_ENV"
-              echo "export DB_USERNAME=$DB_USERNAME" >> "$BASH_ENV"
-              echo "export DB_PASSWORD=$DB_PASSWORD" >> "$BASH_ENV"
-              source "$BASH_ENV"
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
