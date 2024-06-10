@@ -3,9 +3,9 @@ cd go-app
 
 docker build -f build/package/Dockerfile.deploy -t go-app:latest .
 docker container rm -f go-app || true
-docker image prune -f go-app
+docker image prune -f
 
-docker run -d --network kong-net -e \
+docker run -d --network kong-net -p 8080:8080 -e  \
   "PORT=8080" \
   "DB_HOST=localhost" \
   "DB_PORT=5433" \

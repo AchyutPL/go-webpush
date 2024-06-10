@@ -76,6 +76,9 @@ jobs:
       - run:
           name: Login in to Server and Deploy
           command: |
+              pwd 
+              ls
+              ls build/package
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp ./bin/main << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
