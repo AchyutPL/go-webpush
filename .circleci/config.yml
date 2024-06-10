@@ -76,8 +76,7 @@ jobs:
       - run:
           name: Login in to Server and Deploy
           command: |
-              pwd 
-              ls
+              pwd && ls
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
