@@ -76,10 +76,11 @@ jobs:
       - run:
           name: Login in to Server and Deploy
           command: |
-              echo "HOST IS CONFIG $DB_HOST" 
               pwd && ls
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
+              # Export all CircleCI environment variables
+              export $(cut -d= -f1 /proc/1/environ)
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
