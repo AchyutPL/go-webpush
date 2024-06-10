@@ -1,7 +1,7 @@
 # build the image
 cd go-app
 
-echo "ARGS $1"
+echo "ARGS $DB_HOST , $DB_USERNAME"
 
 # decompress the go-app tar file and remove the tar file
 tar -xzf go-app.tar.gz -C . && rm -f go-app.tar.gz
