@@ -72,7 +72,7 @@ jobs:
           command: |
               pwd
               ls
-              scp ./bin/main << parameters.host >>:~/go-app/
+              scp ./bin/main << parameters.host >>:~/go-app/main
               ssh << parameters.host >> 'bash -s' < << parameters.deploy-script >>
 
 workflows:
