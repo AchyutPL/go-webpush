@@ -80,7 +80,8 @@ jobs:
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
               # Export all CircleCI environment variables
-              export $(cut -d= -f1 /proc/1/environ)
+              printenv
+              export $(printenv)
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
