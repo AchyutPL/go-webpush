@@ -54,9 +54,14 @@ jobs:
         type: string
         default: $DEV_HOST
 
-       deploy-script:
+       setup_script:
+         type: string
+         default: ./scripts/ssh-setup.sh
+
+       deploy_script:
         type: string
         default: ./scripts/deploy.sh
+        
     steps:
       - attach_workspace:
           at: ./
@@ -70,10 +75,9 @@ jobs:
       - run:
           name: Login in to Server and Deploy
           command: |
-              pwd
-              ls ./bin
+              ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp ./bin/main << parameters.host >>:~/go-app/
-              ssh << parameters.host >> 'bash -s' < << parameters.deploy-script >>
+              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
 
 workflows:
    deploy-app:
