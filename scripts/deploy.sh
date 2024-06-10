@@ -3,10 +3,10 @@ cd go-app
 
 # Accessing and assigning the received args to variables from config.yml
 DB_HOST=$1
-DB_HOST=$2
+DB_PORT=$2
 DB_DATABASE=$3
 DB_USERNAME=$4
-DB_USERNAME=$5
+DB_PASSWORD=$5
 
 # decompress the go-app tar file and remove the tar file
 tar -xzf go-app.tar.gz -C . && rm -f go-app.tar.gz
