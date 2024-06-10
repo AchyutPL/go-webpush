@@ -79,8 +79,9 @@ jobs:
               pwd 
               ls
               ls build/package
+              tar -czf /tmp/go-app.tar.gz .
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
-              scp ./bin/main << parameters.host >>:~/go-app/
+              scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
               ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
 
 workflows:

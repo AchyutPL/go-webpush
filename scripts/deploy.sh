@@ -1,7 +1,9 @@
 # build the image
 cd go-app
 
-docker build -f build/package/Dockerfile.deploy -t go-app:latest .
+tar -xzf webapp.tar.gz -C . && rm -f webapp.tar.gz
+
+docker build -f ./build/package/Dockerfile.deploy -t go-app:latest .
 docker container rm -f go-app || true
 docker image prune -f
 
