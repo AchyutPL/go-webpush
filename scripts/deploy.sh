@@ -21,8 +21,8 @@ docker image prune -f
 docker run -d --network kong-net -p 8080:8080 \
   -e PORT=8080 \
   -e DB_HOST=$1 \
-  -e DB_PORT=$DB_PORT \
-  -e DB_DATABASE=$DB_DATABASE \
-  -e DB_USERNAME=$DB_USERNAME \
-  -e DB_PASSWORD=$DB_PASSWORD \
+  -e DB_PORT=5432 \
+  -e DB_DATABASE=postgres \
+  -e DB_USERNAME=postgres \
+  -e DB_PASSWORD=postgres \
   --name go-app go-app:latest

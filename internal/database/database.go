@@ -22,6 +22,8 @@ var DB *gorm.DB
 
 func ConnectToDB() {
 	var err error
+
+	log.Println("HOST HJ", host)
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", host, username, password, database, port)
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
