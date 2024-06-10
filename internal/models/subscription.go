@@ -32,5 +32,4 @@ type Subscription struct {
 	Endpoint       string   `json:"endpoint" binding:"required"`
 	ExpirationTime *int64   `json:"expirationTime"`
 	Keys           AuthKeys `json:"keys" binding:"required"`
-	Test           string   `json:"test" binding:"required"`
 }

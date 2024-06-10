@@ -17,6 +17,9 @@ func NewServer() error {
 
 	server = gin.Default()
 
+	// Use the logger middleware
+	server.Use(gin.Logger())
+
 	database.ConnectToDB()
 
 	// cors configuration

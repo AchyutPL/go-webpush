@@ -1,4 +1,3 @@
-# build the image
 cd go-app
 
 # Accessing and assigning the received args to variables from config.yml

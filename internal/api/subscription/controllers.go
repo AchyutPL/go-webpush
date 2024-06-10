@@ -23,15 +23,16 @@ func (sc *SubscriptionController) CreateSubscription(ctx *gin.Context) {
 	var sub models.Subscription
 
 	if err := ctx.ShouldBindJSON(&sub); err != nil {
+		log.Fatal("💥Error ", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	err := sc.SubscriptionService.SubscribeUser(&sub)
 
-	log.Println("🚀🚀🚀🚀🚀err", err)
-
 	if err != nil {
+		log.Fatal("💥Error ", err)
+
 		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return
 	}
