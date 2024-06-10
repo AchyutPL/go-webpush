@@ -79,9 +79,10 @@ jobs:
               pwd && ls
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
+              echo "export DB_HOST=$DB_HOST" >> "$BASH_ENV"
               ssh << parameters.host >> 'bash -s' < << parameters.setup_script >>
               scp /tmp/go-app.tar.gz << parameters.host >>:~/go-app/
-              ssh << parameters.host >> 'bash -s' < DEV_HOST=$DEV_HOST << parameters.deploy_script >>
+              ssh << parameters.host >> 'bash -s' < << parameters.deploy_script >>
 
 workflows:
    deploy-app:
