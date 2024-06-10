@@ -76,6 +76,7 @@ jobs:
       - run:
           name: Login in to Server and Deploy
           command: |
+              echo "HOST IS CONFIG $DB_HOST" 
               pwd && ls
               ls build/package
               tar -czf /tmp/go-app.tar.gz .
