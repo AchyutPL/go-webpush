@@ -1,10 +1,10 @@
 # build the image
 cd go-app
 
-pwd && ls
-
 # decompress the go-app tar file and remove the tar file
 tar -xzf go-app.tar.gz -C . && rm -f go-app.tar.gz
+
+pwd && ls
 
 # build the image using the file Dockerfile.deploy
 docker build -f ./build/package/Dockerfile.deploy -t go-app:latest .
