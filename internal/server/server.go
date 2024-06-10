@@ -3,6 +3,7 @@ package server
 import (
 	"go-webpush/configs"
 	"go-webpush/internal/database"
+	"go-webpush/pkg/logger"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -17,8 +18,8 @@ func NewServer() error {
 
 	server = gin.Default()
 
-	// Use the logger middleware
-	server.Use(gin.Logger())
+	// Use the logger
+	logger.InitializeLogger()
 
 	database.ConnectToDB()
 

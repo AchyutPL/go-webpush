@@ -23,7 +23,7 @@ func (sc *SubscriptionController) CreateSubscription(ctx *gin.Context) {
 	var sub models.Subscription
 
 	if err := ctx.ShouldBindJSON(&sub); err != nil {
-		log.Fatal("💥Error ", err)
+		log.Println("💥Error ", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -31,7 +31,7 @@ func (sc *SubscriptionController) CreateSubscription(ctx *gin.Context) {
 	err := sc.SubscriptionService.SubscribeUser(&sub)
 
 	if err != nil {
-		log.Fatal("💥Error ", err)
+		log.Println("💥Error ", err)
 
 		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return

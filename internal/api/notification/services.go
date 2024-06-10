@@ -5,6 +5,7 @@ import (
 	"go-webpush/internal/database"
 	"go-webpush/internal/models"
 	"go-webpush/internal/types"
+	"go-webpush/pkg/logger"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -42,7 +43,7 @@ func (ns *NotificationService) SendNotification(notification *types.Notification
 		"body":  payload.Body,
 	}
 
-	log.Println("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀sub------> ", updatedPayload)
+	logger.Log.Sugar().Infow("Payload", "payload", updatedPayload)
 
 	payloadBytes, payloadErr := json.Marshal(updatedPayload)
 
@@ -81,8 +82,6 @@ func (ns *NotificationService) SendNotification(notification *types.Notification
 				VAPIDPublicKey:  vapidPublicKey,
 				VAPIDPrivateKey: vapidPrivateKey,
 			})
-			log.Println("RESP------> ", resp)
-
 			if err != nil {
 				log.Printf("💥💥💥Error sending notification:💥💥💥 %v\n", err)
 				return
