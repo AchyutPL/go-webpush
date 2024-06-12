@@ -1,1 +1,0 @@
-All the depoloyments logics like terraform , kubernetes goes here

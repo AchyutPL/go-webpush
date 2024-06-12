@@ -5,6 +5,8 @@ FROM golang:1.22 AS builder
 # Set destination for COPY
 WORKDIR /app
 
+RUN ls
+
 # Download Go modules
 COPY .env go.mod go.sum ./
 RUN go mod download
@@ -14,7 +16,7 @@ RUN go mod download
 COPY . .
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go-push
+RUN make build
 
 # Optional:
 # To bind to a TCP port, runtime parameters must be supplied to the docker command.
@@ -24,12 +26,14 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /go-push
 
 
 FROM alpine:3.14 AS production
+
 # Add certificates
+WORKDIR /app
 
 COPY .env .
-COPY --from=builder go-push .
+COPY --from=builder /app/bin/main .
 # Expose port
 EXPOSE 8080
 
 # Run
-CMD ["/go-push"]
+ENTRYPOINT ./main
