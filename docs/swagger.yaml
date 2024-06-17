@@ -1,0 +1,40 @@
+definitions:
+  notification.NotificationResponse:
+    properties:
+      message:
+        example: success
+        type: string
+    type: object
+  types.Notification:
+    properties:
+      body:
+        type: string
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /notification/send:
+    post:
+      consumes:
+      - application/json
+      description: Send Notification to User
+      parameters:
+      - description: The notification object
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/types.Notification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/notification.NotificationResponse'
+      summary: Send Notification to User
+      tags:
+      - notification
+swagger: "2.0"
