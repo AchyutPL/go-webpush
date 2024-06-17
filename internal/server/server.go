@@ -2,12 +2,15 @@ package server
 
 import (
 	"go-webpush/configs"
+	"go-webpush/docs"
 	"go-webpush/internal/database"
 	"go-webpush/pkg/logger"
 	"log"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var (
@@ -18,6 +21,7 @@ func NewServer() error {
 
 	server = gin.Default()
 
+	docs.SwaggerInfo.BasePath = "/api"
 	// Use the logger
 	logger.InitializeLogger()
 
@@ -25,6 +29,8 @@ func NewServer() error {
 
 	// cors configuration
 	server.Use(configs.CorsConfiguration)
+
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// register all routes from routes.go
 	RegisterRoutes(server)

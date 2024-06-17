@@ -5,7 +5,6 @@ import (
 	"go-webpush/internal/database"
 	"go-webpush/internal/models"
 	"go-webpush/internal/types"
-	"go-webpush/pkg/logger"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -42,8 +41,6 @@ func (ns *NotificationService) SendNotification(notification *types.Notification
 		"title": payload.Title,
 		"body":  payload.Body,
 	}
-
-	logger.Log.Sugar().Infow("Payload", "payload", updatedPayload)
 
 	payloadBytes, payloadErr := json.Marshal(updatedPayload)
 
